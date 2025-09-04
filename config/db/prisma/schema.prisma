@@ -1,0 +1,54 @@
+
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+model Role {
+  id       Int     @id @default(autoincrement())
+  roleName String  @unique
+  users    User[]
+}
+
+model User {
+  id           Int          @id @default(autoincrement())
+  name         String
+  email        String       @unique
+  passwordHash String
+  roleId       Int
+  role         Role         @relation(fields: [roleId], references: [id])
+  enrollments  Enrollment[]
+  classes      Class[]      @relation("FacultyClasses")
+}
+
+model Class {
+  id          Int          @id @default(autoincrement())
+  name        String
+  description String?
+  facultyId   Int?
+  faculty     User?        @relation("FacultyClasses", fields: [facultyId], references: [id])
+  enrollments Enrollment[]
+  sessions    Session[]
+}
+
+model Enrollment {
+  id       Int   @id @default(autoincrement())
+  userId   Int
+  classId  Int
+  user     User  @relation(fields: [userId], references: [id])
+  class    Class @relation(fields: [classId], references: [id])
+  @@unique([userId, classId])
+}
+
+model Session {
+  id        Int    @id @default(autoincrement())
+  classId   Int
+  startTime DateTime
+  endTime   DateTime
+  class     Class  @relation(fields: [classId], references: [id])
+}

@@ -56,7 +56,7 @@ async function testPrismaConnection() {
     console.log('🔍 Testing Prisma Connection...\n');
     
     try {
-        const { PrismaClient } = require('./generated/prisma');
+        const { PrismaClient } = require('../../generated/prisma');
         const prisma = new PrismaClient();
 
         // Test connection
