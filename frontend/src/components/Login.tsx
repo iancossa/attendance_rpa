@@ -32,7 +32,9 @@ const Login: React.FC = () => {
         login(user, token)
       }
     } catch (err: any) {
-      setError(err.response?.data?.error || (isSignUp ? 'Registration failed' : 'Login failed'))
+      console.error('Auth error:', err)
+      const errorMessage = err.response?.data?.error || err.message || (isSignUp ? 'Registration failed' : 'Login failed')
+      setError(errorMessage)
     } finally {
       setIsLoading(false)
     }
