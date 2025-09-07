@@ -8,10 +8,15 @@
         database: process.env.PG_DATABASE,
         password: process.env.PG_PASSWORD,
         port: process.env.PG_PORT,
-        ssl: {
-            require: true,
-            rejectUnauthorized: false
-        }
+        dialect: 'postgres',
+        dialectOptions: {
+            ssl: {
+                require: true,
+                rejectUnauthorized: false
+            }
+        },
+        logging: false,
+        
     });
 
     // Example: Connecting and querying
@@ -34,5 +39,4 @@
     }
 
     connectAndQuery();
-
-    module.exports = pool;
+module.exports = connectAndQuery;
