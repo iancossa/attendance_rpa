@@ -41,14 +41,14 @@ const Login: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold flex items-center justify-center gap-2">
             <LogIn className="w-6 h-6" />
             Attendance Hunters
           </CardTitle>
-          <p className="text-gray-600">{isSignUp ? 'Create your account' : 'Sign in to your account'}</p>
+          <p className="text-gray-600 dark:text-gray-400">{isSignUp ? 'Create your account' : 'Sign in to your account'}</p>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">

@@ -49,4 +49,10 @@ export const reportsAPI = {
   download: (id: number) => api.get(`/reports/${id}/download`),
 }
 
+export const qrAPI = {
+  generateSession: (classId: string, className: string) => api.post('/qr/generate', { classId, className }),
+  markAttendance: (sessionId: string, studentId: string, studentName: string) => api.post(`/qr/mark/${sessionId}`, { studentId, studentName }),
+  getSessionStatus: (sessionId: string) => api.get(`/qr/session/${sessionId}`),
+}
+
 export default api

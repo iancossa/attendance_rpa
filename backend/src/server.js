@@ -45,6 +45,7 @@ app.use((req, res, next) => {
 app.use('/api/auth', require('../routes/auth'));
 app.use('/api/attendance', require('../routes/attendance'));
 app.use('/api/users', require('../routes/users'));
+app.use('/api/qr', require('../routes/qr'));
 
 // Health check with database status
 app.get('/health', async (req, res) => {
@@ -83,6 +84,11 @@ app.get('/api', (req, res) => {
                 'GET /api/users': 'Get all users (admin only)',
                 'GET /api/users/profile': 'Get current user profile (auth required)',
                 'PUT /api/users/:id': 'Update user (admin only)'
+            },
+            qr: {
+                'POST /api/qr/generate': 'Generate QR session (auth required)',
+                'POST /api/qr/mark/:sessionId': 'Mark attendance via QR',
+                'GET /api/qr/session/:sessionId': 'Get session status (auth required)'
             }
         }
     });

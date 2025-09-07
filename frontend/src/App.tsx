@@ -8,13 +8,19 @@ import ClassManagement from './components/ClassManagement'
 import Reports from './components/Reports'
 import Leaderboard from './components/Leaderboard'
 import Settings from './components/Settings'
+import ThemeToggle from './components/ThemeToggle'
 
 function App() {
   const { isAuthenticated } = useAuthStore()
   const [currentPage, setCurrentPage] = useState('dashboard')
 
   if (!isAuthenticated) {
-    return <Login />
+    return (
+      <>
+        <Login />
+        <ThemeToggle />
+      </>
+    )
   }
 
   const renderPage = () => {
@@ -37,9 +43,12 @@ function App() {
   }
 
   return (
-    <Layout currentPage={currentPage} onPageChange={setCurrentPage}>
-      {renderPage()}
-    </Layout>
+    <>
+      <Layout currentPage={currentPage} onPageChange={setCurrentPage}>
+        {renderPage()}
+      </Layout>
+      <ThemeToggle />
+    </>
   )
 }
 

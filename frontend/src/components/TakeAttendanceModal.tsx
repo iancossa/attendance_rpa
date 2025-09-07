@@ -4,6 +4,7 @@ import { Button } from './ui/Button'
 import { Input } from './ui/Input'
 import { X, QrCode, Users, Clock, Search } from 'lucide-react'
 import QRCode from 'react-qr-code'
+import { qrAPI } from '../services/api'
 
 interface Student {
   id: string
@@ -20,7 +21,9 @@ interface TakeAttendanceModalProps {
 const TakeAttendanceModal: React.FC<TakeAttendanceModalProps> = ({ isOpen, onClose }) => {
   const [mode, setMode] = useState<'qr' | 'manual'>('qr')
   const [qrCode, setQrCode] = useState('')
-  const [timeLeft, setTimeLeft] = useState(300) // 5 minutes
+  const [sessionId, setSessionId] = useState('')
+  const [timeLeft, setTimeLeft] = useState(60) // 1 minute
+  const [isGenerating, setIsGenerating] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [students, setStudents] = useState<Student[]>([
     { id: '1', name: 'John Doe', rollNumber: 'CS001', status: 'absent' },
@@ -28,22 +31,38 @@ const TakeAttendanceModal: React.FC<TakeAttendanceModalProps> = ({ isOpen, onClo
     { id: '3', name: 'Mike Johnson', rollNumber: 'CS003', status: 'absent' },
   ])
 
-  useEffect(() => {
-    if (isOpen && mode === 'qr') {
-      const sessionId = `session_${Date.now()}`
-      setQrCode(`attendance://mark?session=${sessionId}&class=CS101`)
+  const generateQRSession = async () => {
+    setIsGenerating(true)
+    try {
+      const response = await qrAPI.generateSession('CS101', 'CS-101')
+      const { sessionId: newSessionId, qrData, expiresIn } = response.data
+      setSessionId(newSessionId)
+      setQrCode(qrData)
+      setTimeLeft(expiresIn)
       
       const timer = setInterval(() => {
         setTimeLeft((prev) => {
           if (prev <= 1) {
             clearInterval(timer)
+            setQrCode('')
+            setSessionId('')
             return 0
           }
           return prev - 1
         })
       }, 1000)
-
+      
       return () => clearInterval(timer)
+    } catch (error) {
+      console.error('Failed to generate QR session:', error)
+    } finally {
+      setIsGenerating(false)
+    }
+  }
+
+  useEffect(() => {
+    if (isOpen && mode === 'qr' && !qrCode) {
+      generateQRSession()
     }
   }, [isOpen, mode])
 
@@ -126,14 +145,31 @@ const TakeAttendanceModal: React.FC<TakeAttendanceModalProps> = ({ isOpen, onClo
 
           {mode === 'qr' ? (
             <div className="text-center space-y-4">
-              <div className="bg-white p-4 rounded-lg inline-block border">
-                <QRCode value={qrCode} size={200} />
-              </div>
-              <div className="flex items-center justify-center gap-2 text-lg">
-                <Clock className="w-5 h-5" />
-                Time remaining: {formatTime(timeLeft)}
-              </div>
-              <p className="text-gray-600">Students can scan this QR code to mark attendance</p>
+              {qrCode ? (
+                <>
+                  <div className="bg-white p-4 rounded-lg inline-block border">
+                    <QRCode value={qrCode} size={200} />
+                  </div>
+                  <div className="flex items-center justify-center gap-2 text-lg">
+                    <Clock className={`w-5 h-5 ${timeLeft <= 10 ? 'text-red-500' : 'text-blue-500'}`} />
+                    <span className={timeLeft <= 10 ? 'text-red-500 font-bold' : ''}>
+                      Time remaining: {formatTime(timeLeft)}
+                    </span>
+                  </div>
+                  <p className="text-gray-600">Students can scan this QR code to mark attendance</p>
+                  {timeLeft === 0 && (
+                    <Button onClick={generateQRSession} disabled={isGenerating} className="mt-4">
+                      {isGenerating ? 'Generating...' : 'Generate New QR'}
+                    </Button>
+                  )}
+                </>
+              ) : (
+                <div className="py-8">
+                  <Button onClick={generateQRSession} disabled={isGenerating}>
+                    {isGenerating ? 'Generating QR...' : 'Generate QR Code'}
+                  </Button>
+                </div>
+              )}
             </div>
           ) : (
             <div className="space-y-4">

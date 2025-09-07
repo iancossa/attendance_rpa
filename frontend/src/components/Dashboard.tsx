@@ -37,7 +37,7 @@ const Dashboard: React.FC = () => {
   return (
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold">Dashboard</h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
         <Button onClick={() => setShowAttendanceModal(true)} className="flex items-center gap-2">
           <QrCode className="w-4 h-4" />
           Take Attendance
