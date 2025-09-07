@@ -92,9 +92,9 @@ const TakeAttendanceModal: React.FC<TakeAttendanceModalProps> = ({ isOpen, onClo
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg w-full max-w-4xl max-h-[90vh] overflow-hidden">
-        <div className="flex items-center justify-between p-6 border-b">
-          <h2 className="text-2xl font-bold">Take Attendance - CS 101</h2>
+      <div className="bg-white dark:bg-gray-800 rounded-lg w-full max-w-4xl max-h-[90vh] overflow-hidden">
+        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-600">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Take Attendance - CS 101</h2>
           <Button variant="ghost" size="icon" onClick={onClose}>
             <X className="w-4 h-4" />
           </Button>
@@ -126,19 +126,19 @@ const TakeAttendanceModal: React.FC<TakeAttendanceModalProps> = ({ isOpen, onClo
             <Card>
               <CardContent className="p-4 text-center">
                 <div className="text-2xl font-bold text-green-600">{presentCount}</div>
-                <div className="text-sm text-gray-500">Present</div>
+                <div className="text-sm text-gray-500 dark:text-gray-400">Present</div>
               </CardContent>
             </Card>
             <Card>
               <CardContent className="p-4 text-center">
                 <div className="text-2xl font-bold text-red-600">{absentCount}</div>
-                <div className="text-sm text-gray-500">Absent</div>
+                <div className="text-sm text-gray-500 dark:text-gray-400">Absent</div>
               </CardContent>
             </Card>
             <Card>
               <CardContent className="p-4 text-center">
                 <div className="text-2xl font-bold">{students.length}</div>
-                <div className="text-sm text-gray-500">Total</div>
+                <div className="text-sm text-gray-500 dark:text-gray-400">Total</div>
               </CardContent>
             </Card>
           </div>
@@ -156,7 +156,7 @@ const TakeAttendanceModal: React.FC<TakeAttendanceModalProps> = ({ isOpen, onClo
                       Time remaining: {formatTime(timeLeft)}
                     </span>
                   </div>
-                  <p className="text-gray-600">Students can scan this QR code to mark attendance</p>
+                  <p className="text-gray-600 dark:text-gray-400">Students can scan this QR code to mark attendance</p>
                   {timeLeft === 0 && (
                     <Button onClick={generateQRSession} disabled={isGenerating} className="mt-4">
                       {isGenerating ? 'Generating...' : 'Generate New QR'}
@@ -187,11 +187,11 @@ const TakeAttendanceModal: React.FC<TakeAttendanceModalProps> = ({ isOpen, onClo
                 {filteredStudents.map((student) => (
                   <div
                     key={student.id}
-                    className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50"
+                    className="flex items-center justify-between p-3 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
                   >
                     <div>
                       <div className="font-medium">{student.name}</div>
-                      <div className="text-sm text-gray-500">{student.rollNumber}</div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">{student.rollNumber}</div>
                     </div>
                     <Button
                       variant={student.status === 'present' ? 'default' : 'outline'}
@@ -206,7 +206,7 @@ const TakeAttendanceModal: React.FC<TakeAttendanceModalProps> = ({ isOpen, onClo
             </div>
           )}
 
-          <div className="flex justify-end gap-4 mt-6 pt-4 border-t">
+          <div className="flex justify-end gap-4 mt-6 pt-4 border-t border-gray-200 dark:border-gray-600">
             <Button variant="outline" onClick={onClose}>
               Cancel
             </Button>

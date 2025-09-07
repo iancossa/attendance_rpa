@@ -9,9 +9,15 @@ const prisma = new PrismaClient();
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
 // Register
-router.post('/register', authLimiter, validateRegistration, async (req, res) => {
+router.post('/register', validateRegistration, async (req, res) => {
     try {
         const { email, password, name, employeeId } = req.body;
+        
+        // Check if user already exists
+        const existingUser = await prisma.user.findUnique({ where: { email } });
+        if (existingUser) {
+            return res.status(400).json({ error: 'User with this email already exists' });
+        }
         
         const hashedPassword = await bcrypt.hash(password, 10);
         
@@ -38,7 +44,7 @@ router.post('/register', authLimiter, validateRegistration, async (req, res) => 
 });
 
 // Login
-router.post('/login', authLimiter, validateLogin, async (req, res) => {
+router.post('/login', validateLogin, async (req, res) => {
     try {
         const { email, password } = req.body;
         
