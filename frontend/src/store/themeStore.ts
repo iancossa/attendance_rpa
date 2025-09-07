@@ -6,9 +6,15 @@ interface ThemeState {
   setTheme: (isDark: boolean) => void
 }
 
+const getInitialTheme = () => {
+  const stored = localStorage.getItem('theme')
+  const isDark = stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches)
+  document.documentElement.classList.toggle('dark', isDark)
+  return isDark
+}
+
 export const useThemeStore = create<ThemeState>((set) => ({
-  isDark: localStorage.getItem('theme') === 'dark' || 
-         (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches),
+  isDark: getInitialTheme(),
   toggleTheme: () => set((state) => {
     const newTheme = !state.isDark
     localStorage.setItem('theme', newTheme ? 'dark' : 'light')

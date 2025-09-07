@@ -38,14 +38,14 @@ const Layout: React.FC<LayoutProps> = ({ children, currentPage, onPageChange }) 
   ]
 
   return (
-    <div className="flex h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
       {/* Sidebar */}
       <div className={`bg-white dark:bg-gray-800 shadow-lg transition-all duration-300 ${
         sidebarOpen ? 'w-64' : 'w-16'
       } md:w-64`}>
         <div className="p-4">
           <div className="flex items-center justify-between">
-            <h1 className={`font-bold text-xl dark:text-white ${sidebarOpen ? 'block' : 'hidden'} md:block`}>
+            <h1 className={`font-bold text-xl dark:text-gray-100 ${sidebarOpen ? 'block' : 'hidden'} md:block`}>
               Attendance
             </h1>
             <Button
@@ -82,7 +82,7 @@ const Layout: React.FC<LayoutProps> = ({ children, currentPage, onPageChange }) 
         <div className="absolute bottom-4 left-4 right-4">
           <div className={`mb-4 ${sidebarOpen ? 'block' : 'hidden'} md:block`}>
             <div className="text-sm text-gray-600 dark:text-gray-400">Signed in as</div>
-            <div className="font-medium dark:text-white">{user?.name}</div>
+            <div className="font-medium dark:text-gray-100">{user?.name}</div>
             <div className="text-xs text-gray-500 dark:text-gray-400">{user?.role}</div>
           </div>
           <div className="space-y-2">

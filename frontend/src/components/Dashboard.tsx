@@ -37,7 +37,7 @@ const Dashboard: React.FC = () => {
   return (
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Dashboard</h1>
         <Button onClick={() => setShowAttendanceModal(true)} className="flex items-center gap-2">
           <QrCode className="w-4 h-4" />
           Take Attendance
@@ -48,45 +48,45 @@ const Dashboard: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Students</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Students</CardTitle>
+            <Users className="h-4 w-4 text-gray-500 dark:text-gray-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.totalStudents}</div>
-            <p className="text-xs text-muted-foreground">Enrolled this semester</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">Enrolled this semester</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Present Today</CardTitle>
-            <UserCheck className="h-4 w-4 text-green-600" />
+            <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">Present Today</CardTitle>
+            <UserCheck className="h-4 w-4 text-green-600 dark:text-green-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-600">{stats.presentToday}</div>
-            <p className="text-xs text-muted-foreground">+2% from yesterday</p>
+            <div className="text-2xl font-bold text-green-600 dark:text-green-400">{stats.presentToday}</div>
+            <p className="text-xs text-gray-500 dark:text-gray-400">+2% from yesterday</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Absent Today</CardTitle>
-            <UserX className="h-4 w-4 text-red-600" />
+            <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">Absent Today</CardTitle>
+            <UserX className="h-4 w-4 text-red-500 dark:text-red-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-red-600">{stats.absentToday}</div>
-            <p className="text-xs text-muted-foreground">-1 from yesterday</p>
+            <div className="text-2xl font-bold text-red-500 dark:text-red-400">{stats.absentToday}</div>
+            <p className="text-xs text-gray-500 dark:text-gray-400">-1 from yesterday</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Attendance %</CardTitle>
-            <AlertTriangle className="h-4 w-4 text-yellow-600" />
+            <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">Attendance %</CardTitle>
+            <AlertTriangle className="h-4 w-4 text-amber-500 dark:text-yellow-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.attendancePercentage}%</div>
-            <p className="text-xs text-muted-foreground">This week average</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">This week average</p>
           </CardContent>
         </Card>
       </div>
@@ -101,9 +101,9 @@ const Dashboard: React.FC = () => {
             {weeklyData.map((day) => (
               <div key={day.day} className="flex items-center space-x-4">
                 <div className="w-12 text-sm font-medium">{day.day}</div>
-                <div className="flex-1 bg-gray-200 rounded-full h-2">
+                <div className="flex-1 bg-gray-200 dark:bg-gray-600 rounded-full h-2">
                   <div
-                    className="bg-blue-600 h-2 rounded-full"
+                    className="bg-blue-600 dark:bg-blue-500 h-2 rounded-full"
                     style={{ width: `${day.percentage}%` }}
                   />
                 </div>
@@ -122,14 +122,14 @@ const Dashboard: React.FC = () => {
         <CardContent>
           <div className="space-y-4">
             {recentActivity.map((activity, index) => (
-              <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+              <div key={index} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
                 <div>
                   <div className="font-medium">{activity.class}</div>
-                  <div className="text-sm text-gray-500">{activity.time}</div>
+                  <div className="text-sm text-gray-500 dark:text-gray-400">{activity.time}</div>
                 </div>
                 <div className="text-right">
                   <div className="font-medium">{activity.present}/{activity.total}</div>
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm text-gray-500 dark:text-gray-400">
                     {Math.round((activity.present / activity.total) * 100)}%
                   </div>
                 </div>
